@@ -42,7 +42,6 @@ class FileReader {
         let wordsInLineArr = removeWhiteSpaceFromArray(line.split(' '));
         if (wordsInLineArr.length) {
             wordsInLineArr.map((eachWord) => {
-                // to treat word as case-insensative
                 eachWord = eachWord.toLowerCase();
                 if (isPalindrome(eachWord.toLowerCase())) {
                     // to avoid single character word viz. 'a' 
@@ -78,7 +77,6 @@ class FileReader {
                 line
             }
         }
-
     }
 
     /**
@@ -87,13 +85,10 @@ class FileReader {
      * @memberof FileReader
      */
     streatFile() {
-
         let lineCounter = 0;
         let fileStream = fs.createReadStream('./input-files/input.txt');
         let rd = readline.createInterface({
             input: fileStream,
-            //output: process.stdout,
-            //console: false
         });
 
         rd.on('line', function (line) {
@@ -103,7 +98,6 @@ class FileReader {
                 console.log('\n Line No. ', lineCounter, ' has no content to process');
             } else {
                 let result = FileReader.processLine(line, lineCounter);
-                //console.log('\n\n##############################');
                 console.log('Line Number: ', result.lineNumber);
                 console.log('Sanitised Line: ',result.line);
                 (result.sortedPalindromes) ?
@@ -111,7 +105,6 @@ class FileReader {
                     : console.log('Palindrome(s): No Palindrome in here bro.');
             }
         });
-
     }
 }
 
