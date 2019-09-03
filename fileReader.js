@@ -7,11 +7,10 @@
 const fs = require('fs');
 const readline = require('readline');
 
-const { isPalindrome,
-        removeWhiteSpaceFromArray,
-        removePunctuationMarks,
-        nestArrToFlatObject
+const { isPalindrome, removeWhiteSpaceFromArray, removePunctuationMarks,
+    nestArrToFlatObject
 } = require('./util');
+
 const inputFile = 'input.txt';
 
 /**
@@ -22,8 +21,8 @@ class FileReader {
      *Creates an instance of FileReader.
      * @memberof FileReader
      */
-    constructor(){
-        
+    constructor() {
+
     }
     /**
      *
@@ -33,30 +32,27 @@ class FileReader {
      * @returns {object} { line,sortedPalindromes,lineNumber }
      * @memberof FileReader
      */
-    static processLine(line,lineCounter){
+    static processLine(line, lineCounter) {
         let palindromeCounterMap = {};
-         /** 
-         * remove punctuation marks to handle case(s) like palindrome word with 
-         * fullstop or comma e.g. My name is Nitin, I speaks Malayalam.
-        */
-        line= removePunctuationMarks(line); 
-        let wordsInLineArr= removeWhiteSpaceFromArray(line.split(' '));
-        if(wordsInLineArr.length){
-            wordsInLineArr.map((eachWord)=>{
+        /** 
+        * remove punctuation marks to handle case(s) like palindrome word with 
+        * fullstop or comma e.g. My name is Nitin, I speaks Malayalam.
+       */
+        line = removePunctuationMarks(line);
+        let wordsInLineArr = removeWhiteSpaceFromArray(line.split(' '));
+        if (wordsInLineArr.length) {
+            wordsInLineArr.map((eachWord) => {
                 // to treat word as case-insensative
-                eachWord = eachWord.toLowerCase(); 
-                if(isPalindrome(eachWord.toLowerCase())){
+                eachWord = eachWord.toLowerCase();
+                if (isPalindrome(eachWord.toLowerCase())) {
                     // to avoid single character word viz. 'a' 
-                    if(eachWord.length > 1){ 
+                    if (eachWord.length > 1) {
                         // update occurance of palindrome number
-                        if(palindromeCounterMap[eachWord]){
-                            palindromeCounterMap[eachWord]=
-                            palindromeCounterMap[eachWord]+ 1;
-                        }else{
-                            palindromeCounterMap[eachWord] = 1;
-                        } 
+                        palindromeCounterMap[eachWord]=
+                            palindromeCounterMap[eachWord] ?
+                                palindromeCounterMap[eachWord] + 1 : 1;
                     }
-                }else{
+                } else {
                     //console.log('Not a Palindrome----',eachWord);
                 }
             })
@@ -65,57 +61,54 @@ class FileReader {
             for (let paldrm in palindromeCounterMap) {
                 sortedPalindromes.push([paldrm, palindromeCounterMap[paldrm]]);
             }
-            // sort the array
-            sortedPalindromes.sort(function(a, b) {
+            sortedPalindromes.sort(function (a, b) {
                 return b[1] - a[1];
             });
             return {
-                lineNumber:lineCounter,
+                lineNumber: lineCounter,
                 line,
                 sortedPalindromes
             }
-        } else{
-            //console.log('\n\n **********************************');
-            console.log('\nLine No. ',lineCounter,' has only empty spaces'+
-            ' and/or special characters as content');
+        } else {
+            console.log('\nLine No. ', lineCounter, ' has only empty spaces' +
+                ' and/or special characters as content');
             return {
-                lineNumber:lineCounter,
+                lineNumber: lineCounter,
                 sortedPalindromes: null,
                 line
             }
         }
-                
+
     }
 
-/**
- *
- *
- * @memberof FileReader
- */
-streatFile(){
-        
-        let lineCounter= 0;
-        let fileStream= fs.createReadStream('./input-files/input.txt');
-        
-        let  rd = readline.createInterface({
+    /**
+     *
+     *
+     * @memberof FileReader
+     */
+    streatFile() {
+
+        let lineCounter = 0;
+        let fileStream = fs.createReadStream('./input-files/input.txt');
+        let rd = readline.createInterface({
             input: fileStream,
             //output: process.stdout,
             //console: false
         });
 
-        rd.on('line', function(line) {
-            lineCounter = lineCounter+1;
+        rd.on('line', function (line) {
+            lineCounter = lineCounter + 1;
             console.log('\n\n **********************************');
-            if(!line) { // \n newline is there but with out any content
-                console.log('\n Line No. ',lineCounter,' has no content to process');
-            } else{
-                let result = FileReader.processLine(line,lineCounter);
-                //console.log('\n\n **********************************');
-                console.log('Line Number: ',result.lineNumber);
-                //console.log('Sanitised Line: ',result.line);
+            if (!line) { // \n newline is there but with out any content
+                console.log('\n Line No. ', lineCounter, ' has no content to process');
+            } else {
+                let result = FileReader.processLine(line, lineCounter);
+                //console.log('\n\n##############################');
+                console.log('Line Number: ', result.lineNumber);
+                console.log('Sanitised Line: ',result.line);
                 (result.sortedPalindromes) ?
-                 console.log('Palindrome(s): ',nestArrToFlatObject(result.sortedPalindromes))
-                 : console.log('Palindrome(s): No Palindrome in here bro.');
+                    console.log('Palindrome(s): ', nestArrToFlatObject(result.sortedPalindromes))
+                    : console.log('Palindrome(s): No Palindrome in here bro.');
             }
         });
 
