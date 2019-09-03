@@ -1,8 +1,6 @@
 
 
 
-> Written with [StackEdit](https://stackedit.io/).
-
 ## palindrome-in-file-finder
 
 Find line by line palindrome from large file
@@ -41,9 +39,7 @@ and pipeout streamdata line by line to static method of class which finds palind
 
 3. Script prints the output on terminal/stdio REPL prompt ,has improvement scope to pipeout results to another output file.
 
-4. If there is no content or spaces as content on any line in input file, For
-
-such cases, I'v console logged the edge case messages on terminal, if thats not required, pls comment the line 102 in fileReader.js file for better output reading experience on terminal.
+4. If there is no content or spaces as content on any line in input file, For such cases, I'v console logged the edge case messages on terminal, if thats not required, pls comment the line 102 in fileReader.js file for better output reading experience on terminal.
 
 5. Added sanitised line to output for palindrome verification purpose,It can be commented out at line 113 in fileReader.js file.
 
